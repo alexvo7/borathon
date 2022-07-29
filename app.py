@@ -25,11 +25,8 @@ def open_acc():
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         json = request.json
-
-        results = accounts.find()
-        if results:
-            print(type(results))
-            acc_n = results.sort({"AccountNumber": -1}).limit(1) + 1
+        if len(list(accounts.find())) > 0:
+            acc_n = accounts.find.sort({"AccountNumber": -1}).limit(1) + 1
         else:   # if db is empty
             acc_n = 0
 
@@ -41,7 +38,6 @@ def open_acc():
                 "AccountNumber": acc_n
             }
         )
-        print(post)
 
     return "Content-Type not supported!"
 
