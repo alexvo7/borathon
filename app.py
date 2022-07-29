@@ -28,6 +28,7 @@ def open_acc():
 
         results = accounts.find()
         if results:
+            print(type(results))
             acc_n = results.sort({"AccountNumber": -1}).limit(1) + 1
         else:   # if db is empty
             acc_n = 0
