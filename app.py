@@ -70,11 +70,13 @@ def apply_transaction():
 
 @app.route('/customer/', methods=["GET"])
 def customer_table():
+    print(list(db.accounts.find()))
     return list(db.accounts.find())
 
 
 @app.route('/transaction/', methods=["GET"])
 def transaction_table():
+    print(list(db.transactions.find()))
     return list(db.transactions.find())
 
 
