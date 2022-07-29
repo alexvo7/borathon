@@ -25,7 +25,7 @@ def hello_testing():
     return "<p>Hello testing!</p>"
 
 
-@app.route('/details/{id}', methods=['GET'])
+@app.route('/details/<id>', methods=['GET'])
 def retrieve_details(id):
     """
     Retrieves customer/account details of an account.
