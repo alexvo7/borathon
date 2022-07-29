@@ -26,7 +26,7 @@ def open_acc():
     if content_type == 'application/json':
         json = request.json
         if len(list(accounts.find())) > 0:
-            acc_n = accounts.find.sort({"AccountNumber": -1}).limit(1) + 1
+            acc_n = accounts.find().sort({"AccountNumber": -1}).limit(1) + 1
         else:   # if db is empty
             acc_n = 0
 
