@@ -70,22 +70,24 @@ def apply_transaction():
 
 @app.route('/customer/', methods=["GET"])
 def customer_table():
-    return db.accounts.find()
+    return list(db.accounts.find())
 
 
 @app.route('/transaction/', methods=["GET"])
 def transaction_table():
-    return db.transactions.find()
+    return list(db.transactions.find())
 
 
 @app.route('/delete/customer/', methods=["DELETE"])
 def delete_customer():
-    return db.accounts.deleteMany({})
+    db.accounts.deleteMany({})
+    return
 
 
 @app.route('/delete/transaction/', methods=["DELETE"])
 def delete_transactions():
-    return db.transactions.deleteMany({})
+    db.transactions.deleteMany({})
+    return
 
 
 if __name__ == '__main__':
