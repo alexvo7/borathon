@@ -39,11 +39,14 @@ def retrieve_details(id):
 
     Examples
     ________
-    >>> retrieve_details("1234")
     """
-    post = account_collection.find_one({"account_number": id})
+    post = account_collection.find_one({"account_number": int(id)})
     print(post)
-    return post
+    if post:
+        return post
+
+    else:
+        return "Account not found"
 
 
 @app.route('/open/', methods=['POST'])
