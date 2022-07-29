@@ -98,7 +98,7 @@ def open_account():
 
 
 @app.route('/close/{id}', methods=['POST'])
-def close_account():
+def close_account(id):
     """
     Close Customer Account
 
