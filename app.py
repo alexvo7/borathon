@@ -25,8 +25,8 @@ def hello_testing():
     return "<p>Hello testing!</p>"
 
 
-@app.route('/details/', methods=['POST'])
-def retrieve_details():
+@app.route('/details/{id}', methods=['GET'])
+def retrieve_details(id):
     """
     Retrieves customer/account details of an account.
 
@@ -41,17 +41,9 @@ def retrieve_details():
     ________
     >>> retrieve_details("1234")
     """
-    content_type = request.headers.get('Content-Type')
-    if content_type == ('application/json'):
-        input_json = request.json
-        account_number = input_json["account_number"]
-
-        post = account_collection.find_one({"account_number": account_number})
-        print(post)
-        return post
-
-    else:
-        return 'Content-Type not supported!'
+    post = account_collection.find_one({"account_number": id})
+    print(post)
+    return post
 
 
 @app.route('/open/', methods=['POST'])
