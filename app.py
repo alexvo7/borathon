@@ -38,6 +38,9 @@ def open_acc():
                 "AccountNumber": acc_n
             }
         )
+        return jsonify(
+            {"status": f"account #{acc_n} for {json['FirstName']} {json['LastName']} successfully created"}
+        )
 
     return "Content-Type not supported!"
 
@@ -46,9 +49,9 @@ def open_acc():
 def close_acc():
     acc_n = request.args.get("accNumber")
     query = {"AccountNumber": acc_n}
-    acc = db.accounts.find_one(query)
+    acc = accounts.find_one(query)
     if acc:
-        acc = accounts.update_one(query, {"$set" : {"Status": "closed"}})
+        accounts.update_one(query, {"$set": {"Status": "closed"}})
         return jsonify(
             {"status": f"successfully closed account {acc_n}"}
         )
