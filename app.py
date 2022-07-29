@@ -25,24 +25,36 @@ def open_acc():
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         json = request.json
-        acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
-        print(acc_n)
-        # if acc_n is None:
-        #     post = accounts.insert_one(
-        #         {
-        #             "FirstName": json["FirstName"],
-        #             "LastName": json["LastName"],
-        #             "Status": "open",
-        #             "AccNumber": accounts.find().sort({"AccNumber": -1}).limit(1) + 1
-        #         }
-        #     )
 
-    return "Content-Type not supported!"
+        try:
+            acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
+        except TypeError:   # if db is empty
+            acc_n = 0
+
+        post = accounts.insert_one(
+            {
+                "FirstName": json["FirstName"],
+                "LastName": json["LastName"],
+                "Status": "open",
+                "AccountNumber": acc_n
+            }
+        )
 
 
-@app.route('/api/customer/close', methods=["POST"])
+@app.route('/api/customer/close/', methods=["POST"])
 def close_acc():
-    return {"hello": "world"}
+    acc_n = request.args.get("accNumber")
+    query = {"AccountNumber": acc_n}
+    acc = db.accounts.find_one(query)
+    if acc:
+        acc = accounts.update_one(query, {"$set" : {"Status": "closed"}})
+        return jsonify(
+            {"status": f"successfully closed account {acc_n}"}
+        )
+
+    return jsonify(
+        {"status": "account not found"}
+    )
 
 
 @app.route('/api/customer/apply', methods=["POST"])
@@ -50,14 +62,26 @@ def apply_transaction():
     return {"hello": "world"}
 
 
+# debugging functions
+
 @app.route('/customer/', methods=["GET"])
 def customer_table():
-    return {"hello": "world"}
+    return db.accounts.find()
 
 
 @app.route('/transaction/', methods=["GET"])
 def transaction_table():
-    return {"hello": "world"}
+    return db.transactions.find()
+
+
+@app.route('/delete/customer/', methods=["DELETE"])
+def delete_transactions():
+    return db.accounts.deleteMany({})
+
+
+@app.route('/delete/transaction/', methods=["DELETE"])
+def delete_transactions():
+    return db.transactions.deleteMany({})
 
 
 if __name__ == '__main__':
