@@ -23,14 +23,20 @@ def get_customer_acc(id):
 @app.route('/api/customer/open', methods=["POST"])
 def open_acc():
     content_type = request.headers.get('Content-Type')
-    if (content_type == 'application/json'):
+    if content_type == 'application/json':
         json = request.json
-        print(type(json), json)
-        # post = accounts.insert_one(
-        #     {
-        #         ""
-        #     }
-        # )
+        acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
+        print(acc_n)
+        # if acc_n is None:
+        #     post = accounts.insert_one(
+        #         {
+        #             "FirstName": json["FirstName"],
+        #             "LastName": json["LastName"],
+        #             "Status": "open",
+        #             "AccNumber": accounts.find().sort({"AccNumber": -1}).limit(1) + 1
+        #         }
+        #     )
+
     return "Content-Type not supported!"
 
 
