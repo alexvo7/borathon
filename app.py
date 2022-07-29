@@ -41,6 +41,8 @@ def open_acc():
         )
         print(post)
 
+    return "Content-Type not supported!"
+
 
 @app.route('/api/customer/close/', methods=["POST"])
 def close_acc():
