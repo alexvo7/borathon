@@ -97,7 +97,7 @@ def open_account():
         return 'Content-Type not supported!'
 
 
-@app.route('/close/', methods=['POST'])
+@app.route('/close/{id}', methods=['POST'])
 def close_account():
     """
     Close Customer Account
@@ -111,21 +111,13 @@ def close_account():
 
     Examples
     ________
-    >>> close_account("123")
     """
-    content_type = request.headers.get('Content-Type')
-    if content_type == ('application/json'):
-        input_json = request.json
+    filter = {'account_number': int(id)}
+    new_values = {"$set": {'account_status': 'closed'}}
 
-        account_number = input_json["account_number"]
-
-        filter = {'account_number': account_number}
-        new_values = {"$set": {'account_status': 'closed'}}
-
-        account_collection.update_one(filter, new_values)
-        return "Done"
-    else:
-        return 'Content-Type not supported!'
+    result = account_collection.update_one(filter, new_values)
+    print(result)
+    return "tried... not sure if done"
 
 
 @app.route('/transaction/', methods=['POST'])
