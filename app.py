@@ -97,7 +97,7 @@ def open_account():
         return 'Content-Type not supported!'
 
 
-@app.route('/close/{id}', methods=['POST'])
+@app.route('/close/<id>', methods=['POST'])
 def close_account(id):
     """
     Close Customer Account
