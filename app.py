@@ -4,7 +4,7 @@ from pymongo import MongoClient
 app = Flask(__name__)
 client = MongoClient(port=27017)
 db = client.borathon
-accounts = db.accounts
+accounts = db.account
 transactions = db.transactions
 
 
@@ -26,17 +26,18 @@ def open_acc():
     if content_type == 'application/json':
         json = request.json
 
-        # try:
-        #     acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
-        # except TypeError:   # if db is empty
-        #     acc_n = 0
+        results = accounts.find()
+        if results:
+            acc_n = results.sort({"AccountNumber": -1}).limit(1) + 1
+        else:   # if db is empty
+            acc_n = 0
 
         post = accounts.insert_one(
             {
                 "FirstName": json["FirstName"],
                 "LastName": json["LastName"],
                 "Status": "open",
-                "AccountNumber": 0
+                "AccountNumber": acc_n
             }
         )
         print(post)
