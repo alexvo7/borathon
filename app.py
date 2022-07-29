@@ -17,7 +17,7 @@ def hello_world():  # put application's code here
 
 @app.route('/api/customer/<id>', methods=["GET"])
 def get_customer_acc(id):
-    return {"hello": "world"}
+    return {"hello": id}
 
 
 @app.route('/api/customer/open', methods=["POST"])
@@ -26,17 +26,17 @@ def open_acc():
     if content_type == 'application/json':
         json = request.json
 
-        try:
-            acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
-        except TypeError:   # if db is empty
-            acc_n = 0
+        # try:
+        #     acc_n = accounts.find().sort({"AccNumber": -1}).limit(1) + 1
+        # except TypeError:   # if db is empty
+        #     acc_n = 0
 
         post = accounts.insert_one(
             {
                 "FirstName": json["FirstName"],
                 "LastName": json["LastName"],
                 "Status": "open",
-                "AccountNumber": acc_n
+                "AccountNumber": 0
             }
         )
         print(post)
