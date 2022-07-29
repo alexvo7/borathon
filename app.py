@@ -66,13 +66,18 @@ def open_account():
         first_name = input_json["first_name"]
         last_name = input_json["last_name"]
 
-        old_max_account_id = list(account_collection.find().sort("_id", -1).limit(1))
-        new_account_id = old_max_account_id[0]["account_number"] + 1
-        print(new_account_id)
+        if len(account_collection.find()) == 0:
+            new_account_id = 1
+            new_account_number = 1
 
-        old_max_account_number = (list(account_collection.find().sort("account_number", -1).limit(1)))
-        new_account_number = old_max_account_number[0]["account_number"] + 1
-        print(new_account_number)
+        else:
+            old_max_account_id = list(account_collection.find().sort("_id", -1).limit(1))
+            new_account_id = old_max_account_id[0]["account_number"] + 1
+            print(new_account_id)
+
+            old_max_account_number = (list(account_collection.find().sort("account_number", -1).limit(1)))
+            new_account_number = old_max_account_number[0]["account_number"] + 1
+            print(new_account_number)
 
         post = {
             "_id": new_account_id,
