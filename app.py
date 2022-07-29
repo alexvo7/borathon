@@ -66,7 +66,7 @@ def open_account():
         first_name = input_json["first_name"]
         last_name = input_json["last_name"]
 
-        if len(account_collection.find()) == 0:
+        if len(list(account_collection.find())) == 0:
             new_account_id = 1
             new_account_number = 1
 
