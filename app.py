@@ -39,6 +39,7 @@ def open_acc():
                 "AccountNumber": acc_n
             }
         )
+        print(post)
 
 
 @app.route('/api/customer/close/', methods=["POST"])
@@ -75,7 +76,7 @@ def transaction_table():
 
 
 @app.route('/delete/customer/', methods=["DELETE"])
-def delete_transactions():
+def delete_customer():
     return db.accounts.deleteMany({})
 
 
